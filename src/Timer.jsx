@@ -18,13 +18,8 @@ const Timer = React.createClass({
             timerRunning: true,
             timer: setInterval(function(){
                 if (this.state.seconds === 0 && this.state.minutes === 0) {
-                    if (this.state.timerType === 'POMODORO_TIMER') {
-                        this.onToggle('POMODORO_TIMER');
-                        this.stopTimer();
-                    } else {
-                        this.onToggle('BREAK_TIMER');
-                        this.stopTimer();
-                    }
+                    this.onToggle(this.state.timerType);
+                    this.stopTimer();
                 } else {
                     if (this.state.seconds === 0) {
                         this.setState({
@@ -46,8 +41,18 @@ const Timer = React.createClass({
             timer: clearInterval(this.state.timer)
         })
     },
+    resetTimer: function() {
+        this.stopTimer();
+        this.setState({
+            minutes: this.props.time,
+            seconds: 0
+        })
+    },
     onToggle: function(clockId) {
         this.props.onToggle(clockId)
+    },
+    onResetTimerClick: function() {
+        this.props.resetTimer(this.state.timerType);
     },
     render: function() {
         if ((this.state.timerType === 'POMODORO_TIMER' && this.props.showPomodoroTimer)
@@ -60,6 +65,7 @@ const Timer = React.createClass({
                     <button onClick={this.state.timerRunning ? this.stopTimer : this.startTimer}>
                         {this.state.timerRunning ? 'Stop' : 'Start'}
                     </button>
+                    <button onClick={this.onResetTimerClick}>Reset</button>
                 </div>
             )
         } else {
