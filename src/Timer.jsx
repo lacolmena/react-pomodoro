@@ -50,14 +50,21 @@ const Timer = React.createClass({
         this.props.onToggle(clockId)
     },
     render: function() {
-        return(
-            <div>
-                <p>{this.state.minutes}:{('0' + this.state.seconds).slice(-2)}</p>
-                <button onClick={this.state.timerRunning ? this.stopTimer : this.startTimer}>
-                    {this.state.timerRunning ? 'Stop' : 'Start'}
-                </button>
-            </div>
-        )
+        if ((this.state.timerType === 'POMODORO_TIMER' && this.props.showPomodoroTimer)
+        || (this.state.timerType === 'BREAK_TIMER' && this.props.showBreakTimer))
+        {
+            return(
+                <div>
+                    <div>{this.props.showBreakTimer ? 'Break time!' : 'Work time!'}</div>
+                    <p>{this.state.minutes}:{('0' + this.state.seconds).slice(-2)}</p>
+                    <button onClick={this.state.timerRunning ? this.stopTimer : this.startTimer}>
+                        {this.state.timerRunning ? 'Stop' : 'Start'}
+                    </button>
+                </div>
+            )
+        } else {
+            return null;
+        }
     }
 })
 

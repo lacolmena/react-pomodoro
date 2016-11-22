@@ -8,7 +8,9 @@ const Pomodoro = React.createClass({
     getInitialState: function() {
         return {
             time: 3,
-            breakTime: 1
+            breakTime: 1,
+            showPomodoroTimer: true,
+            showBreakTimer: false
         }
     },
     incrementTime: function() {
@@ -41,6 +43,13 @@ const Pomodoro = React.createClass({
         } else if (clockId === 'POMODORO_TIMER') {
             this.refs.breakTimer.startTimer();
         }
+        this.toggleTimerShown();
+    },
+    toggleTimerShown: function() {
+        this.setState({
+            showPomodoroTimer: !this.state.showPomodoroTimer,
+            showBreakTimer: !this.state.showBreakTimer
+        })
     },
     render: function() {
         return(
@@ -51,8 +60,16 @@ const Pomodoro = React.createClass({
                 <BreakControl breakTime={this.state.breakTime}/>
                 <button type='button' onClick={this.decrementBreakTime} disabled={this.state.breakTime === 1}>-</button>
                 <button type='button' onClick={this.incrementBreakTime}>+</button>
-                <Timer ref='pomodoroTimer' onToggle={this.onClockToggle} time={this.state.time} timerType={'POMODORO_TIMER'}/>
-                <Timer ref='breakTimer' onToggle={this.onClockToggle} time={this.state.breakTime} timerType={'BREAK_TIMER'}/>
+                <Timer ref='pomodoroTimer' 
+                    onToggle={this.onClockToggle} 
+                    time={this.state.time} 
+                    timerType={'POMODORO_TIMER'}
+                    showPomodoroTimer={this.state.showPomodoroTimer}/>
+                <Timer ref='breakTimer' 
+                    onToggle={this.onClockToggle} 
+                    time={this.state.breakTime} 
+                    timerType={'BREAK_TIMER'}
+                    showBreakTimer={this.state.showBreakTimer}/>
             </div>
         )
     }
