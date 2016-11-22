@@ -4,7 +4,9 @@ import ReactDOM from 'react-dom';
 const PomodoroControl = React.createClass ({
     render: function() {
         return(
-            <p>Pomodoro time: {this.props.time} minutes</p>
+            <p>Pomodoro time: {this.props.time} 
+                {this.props.time > 1 ? ' minutes' : ' minute' }
+            </p>
         )
     }
 })
